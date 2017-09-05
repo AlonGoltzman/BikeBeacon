@@ -1,11 +1,12 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:map="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:name="com.google.android.gms.maps.SupportMapFragment"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             android:background="@color/green"
-                                             tools:context="com.example.juda.bbexample.MapsActivity">
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/green"
+    tools:context="com.bikebeacon.ui.MapsActivity">
 
     <fragment
         android:id="@+id/map"
@@ -27,7 +28,8 @@
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1"/>
+        tools:layout_constraintTop_creator="1"
+        tools:layout="@layout/activity_maps" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/settings"

@@ -13,8 +13,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <application
+        android:name="android.support.multidex.MultiDexApplication"
         android:allowBackup="true"
         android:debuggable="true"
         android:icon="@mipmap/user_location"
@@ -39,35 +41,35 @@
             android:value="false"/>
 
         <activity
-            android:name="com.bikebeacon.ui.MapsActivity"
+            android:name=".ui.MapsActivity"
             android:label="@string/title_activity_maps">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN"/>-->
 
-            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
-        </activity>
-        <activity
-            android:name="com.bikebeacon.ui.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName="com.bikebeacon.ui.MapsActivity"/>
-        <activity android:name="com.bikebeacon.ui.TestActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".ui.MapsActivity"/>
+        <activity android:name=".ui.TestActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN"/>-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
+        </activity>
 
         <!-- Firebase Cloud Messaging -->
-        <service
-            android:name="com.bikebeacon.background.FCMBackend">
+        <service android:name=".background.fcm.FCMBackend">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-        <service
-            android:name="com.bikebeacon.background.FCMIDReceiver">
+        <service android:name=".background.fcm.FCMIDReceiver">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>

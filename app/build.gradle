@@ -7,6 +7,8 @@ android {
         applicationId "com.bikebeacon"
         minSdkVersion 19
         targetSdkVersion 26
+        //Used for API 19
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -17,6 +19,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    //Settings for API 19
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
 }
 
@@ -35,20 +41,27 @@ dependencies {
     compile 'com.google.android.gms:play-services:11.2.0'
 
     //Design
-    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
+    compile 'com.android.support:appcompat-v7:26.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:26.0.0-alpha1'
-    compile 'com.android.support:support-v4:26.0.0-alpha1'
-    compile 'com.android.support:support-vector-drawable:26.0.0-alpha1'
+    compile 'com.android.support:design:26.0.1'
+    compile 'com.android.support:support-v4:26.0.1'
+    compile 'com.android.support:support-vector-drawable:26.0.1'
+    compile 'org.adw.library:discrete-seekbar:1.0.1'
 
     //HTTP Ops
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
     compile 'com.ibm.watson.developer_cloud:java-sdk:3.8.0'
 
-    //Fuck my life
-    compile 'com.google.android.exoplayer:exoplayer:r2.5.1'
-    compile 'com.devbrackets.android:exomedia:4.0.3'
+    //Media Player
+    compile 'com.google.android.exoplayer:exoplayer-core:r2.5.1'
 
+    //Support for API 19
+    compile 'com.android.support:multidex:1.0.1'
+
+    //Annotations
+    compile group: 'org.jetbrains', name: 'annotations', version: '15.0'
+
+    //Test
     testCompile 'junit:junit:4.12'
 }
 

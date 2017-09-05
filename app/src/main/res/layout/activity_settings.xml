@@ -1,13 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             tools:context="com.example.juda.bbexample.SettingsActivity">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.bikebeacon.ui.SettingsActivity"
+    android:orientation="vertical">
 
-    <TextView
+    <Switch
+        android:id="@+id/low_power_mode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Low Power"/>
+        android:padding="8dp"
+        android:text="Low Power Mode  " />
 
-</android.support.constraint.ConstraintLayout>
+    <Switch
+        android:id="@+id/map_draw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Map Draw  "
+        android:padding="8dp" />
+
+    <TextView
+        android:id="@+id/stat_refresh_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stat Refresh Time"
+        android:padding="8dp" />
+
+    <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+        android:id="@+id/stat_refresh_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:dsb_min="0"
+        app:dsb_max="5"
+        app:dsb_indicatorFormatter="%d"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"/>
+
+</LinearLayout>
