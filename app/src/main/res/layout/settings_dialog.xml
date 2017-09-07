@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.bikebeacon.ui.SettingsActivity"
-    android:orientation="vertical">
+    android:layout_margin="10dp"
+    android:orientation="vertical"
+    tools:context="com.bikebeacon.ui.SettingsActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/settings_title"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold" />
 
     <Switch
         android:id="@+id/low_power_mode"
@@ -19,23 +27,23 @@
         android:id="@+id/map_draw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Map Draw  "
-        android:padding="8dp" />
+        android:padding="8dp"
+        android:text="Map Draw  " />
 
     <TextView
         android:id="@+id/stat_refresh_time_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Stat Refresh Time"
-        android:padding="8dp" />
+        android:padding="8dp"
+        android:text="Stat Refresh Time" />
 
     <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
         android:id="@+id/stat_refresh_time"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:dsb_min="0"
-        app:dsb_max="5"
         app:dsb_indicatorFormatter="%d"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"/>
+        app:dsb_max="5"
+        app:dsb_min="0" />
 
 </LinearLayout>

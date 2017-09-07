@@ -29,6 +29,9 @@ public final class Constants {
     public static final String SHARED_PREFERENCES_FIRST_RUN = PACKAGE_NAME + ".firstRun";
     public static final String SHARED_PREFERENCES_UUID = PACKAGE_NAME + ".UUID";
     public static final String SHARED_PREFERENCES_NUMBER_TO_CALL = PACKAGE_NAME + ".call";
+    public static final String SHARED_PREFERENCES_LOW_POWER_MODE = PACKAGE_NAME + ".lowPower";
+    public static final String SHARED_PREFERENCES_MAP_DRAW = PACKAGE_NAME  +".mapDraw";
+    public static final String SHARED_PREFERENCES_REFRESH_TIME = PACKAGE_NAME + ".refreshTime";
 
     public static final String RESPONSE_INPUT = "inputFormat";
     public static final String RESPONSE_OUTPUT = "outputFormat";

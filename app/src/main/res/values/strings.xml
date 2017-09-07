@@ -77,4 +77,5 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="permission_alert">Can\'t update map - permissions required</string>
     <string name="recording_format">Recording audio, time let: $1%s</string>
+    <string name="settings_title">Settings</string>
 </resources>

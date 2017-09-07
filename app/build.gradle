@@ -47,6 +47,7 @@ dependencies {
     compile 'com.android.support:support-v4:26.0.1'
     compile 'com.android.support:support-vector-drawable:26.0.1'
     compile 'org.adw.library:discrete-seekbar:1.0.1'
+    compile 'com.orhanobut:dialogplus:1.11@aar'
 
     //HTTP Ops
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
@@ -60,6 +61,10 @@ dependencies {
 
     //Annotations
     compile group: 'org.jetbrains', name: 'annotations', version: '15.0'
+
+    //General utility
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+
 
     //Test
     testCompile 'junit:junit:4.12'

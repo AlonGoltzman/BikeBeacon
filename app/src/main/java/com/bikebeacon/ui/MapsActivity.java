@@ -14,10 +14,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bikebeacon.R;
+import com.bikebeacon.ui.handlers.DialogActionHandler;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -38,6 +40,11 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnClickListener;
+import com.orhanobut.dialogplus.ViewHolder;
+
+import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 import java.io.IOException;
 import java.text.NumberFormat;
@@ -68,7 +75,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         GoogleMap.OnMarkerClickListener, com.google.android.gms.location.LocationListener {
 
     private static final int REQUEST_CHECK_SETTINGS = 2;
-    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
     private GoogleApiClient apiClient;
     private Location lastLocation;
@@ -134,8 +141,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragment.getActivity().startActivity(new Intent(MapsActivity.this, SettingsActivity.class));
-//                MapsActivity.this.startActivity();
+                DialogPlus dialog = DialogPlus.newDialog(view.getContext())
+                        .setContentHolder(new ViewHolder(R.layout.settings_dialog))
+                        .create();
+                DialogActionHandler handler = new DialogActionHandler(MapsActivity.this);
+                Switch lowPower = dialog.getHolderView().findViewById(R.id.low_power_mode);
+                Switch mapDraw = dialog.getHolderView().findViewById(R.id.map_draw);
+                DiscreteSeekBar refresh = dialog.getHolderView().findViewById(R.id.stat_refresh_time);
+                lowPower.setOnCheckedChangeListener(handler);
+                mapDraw.setOnCheckedChangeListener(handler);
+                refresh.setOnProgressChangeListener(handler);
+                dialog.show();
+
             }
         });
     }
@@ -351,7 +368,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * a readable address and vice versa.
      *
      * @param latLng
-     *
      * @return String
      */
     private String getAddress(LatLng latLng) {

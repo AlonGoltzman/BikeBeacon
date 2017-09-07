@@ -23,7 +23,7 @@ public class SettingsActivity extends MapsActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.settings_dialog);
 
         lowPowerMode = findViewById(R.id.low_power_mode);
         mapDraw = findViewById(R.id.map_draw);
