@@ -7,17 +7,24 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
+import android.telephony.CellIdentityGsm;
+import android.telephony.CellIdentityLte;
+import android.telephony.CellInfo;
+import android.telephony.CellInfoGsm;
+import android.telephony.CellInfoLte;
+import android.telephony.NeighboringCellInfo;
+import android.telephony.TelephonyManager;
 
 import org.jetbrains.annotations.Contract;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.bikebeacon.background.utility.Constants.PACKAGE_NAME;
 import static com.bikebeacon.background.utility.Constants.PERMISSION_REQUEST_CODE;
 import static com.bikebeacon.background.utility.Constants.SHARED_PREFERENCES_FIRST_RUN;
-import static com.bikebeacon.background.utility.Constants.SHARED_PREFERENCES_UUID;
 
 /**
  * Created by Alon on 8/20/2017.
@@ -75,15 +82,6 @@ public final class GeneralUtility {
         hasPermissions = flag;
     }
 
-    @Contract("null->fail")
-    public static String getUUID(Activity caller) {
-        if (UUID == null || UUID.isEmpty()) {
-            UUID = caller.getSharedPreferences(PACKAGE_NAME, Context.MODE_APPEND).getString(SHARED_PREFERENCES_UUID, "null");
-            if (UUID.equals("null"))
-                return null;
-        }
-        return UUID;
-    }
 
     @Contract("null->fail")
     public static void setUUID(String uuid) {
@@ -95,6 +93,40 @@ public final class GeneralUtility {
                 UUID = uuid;
         else
             throw new NullPointerException("UUID given is either null or empty.");
+    }
+
+    public static String getCellInfo(Context context) {
+        TelephonyManager tel = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        ArrayList<String> ids = new ArrayList<>();
+
+        //from Android M up must use getAllCellInfo
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            List<NeighboringCellInfo> neighCells = tel.getNeighboringCellInfo();
+            for (int i = 0; i < neighCells.size(); i++) {
+                try {
+                    NeighboringCellInfo thisCell = neighCells.get(i);
+                    ids.add(String.valueOf(thisCell.getCid()));
+                } catch (Exception ignored) {
+                }
+            }
+
+        } else {
+            List<CellInfo> infos = tel.getAllCellInfo();
+            for (int i = 0; i < infos.size(); ++i) {
+                try {
+                    CellInfo info = infos.get(i);
+                    if (info instanceof CellInfoGsm) {
+                        CellIdentityGsm identityGsm = ((CellInfoGsm) info).getCellIdentity();
+                        ids.add(String.valueOf(identityGsm.getCid()));
+                    } else if (info instanceof CellInfoLte) {
+                        CellIdentityLte identityLte = ((CellInfoLte) info).getCellIdentity();
+                        ids.add(String.valueOf(identityLte.getCi()));
+                    }
+                } catch (Exception ignored) {
+                }
+            }
+        }
+        return ids.toString().replace("[", "").replace("]", "");
     }
 
     private static boolean requiresRuntimePermissions() {

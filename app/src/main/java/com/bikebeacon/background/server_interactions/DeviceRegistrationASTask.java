@@ -1,11 +1,11 @@
 package com.bikebeacon.background.server_interactions;
 
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.bikebeacon.background.dispatchers.NetworkDispatcher;
+import com.bikebeacon.background.utility.SharedPreferencesManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,10 +27,10 @@ import static com.bikebeacon.background.utility.GeneralUtility.setUUID;
 public class DeviceRegistrationASTask extends AsyncTask<Void, Void, Void> implements Callback {
 
     private final String TAG = "DeviceRegistrationAST";
-    private SharedPreferences.Editor editor;
+    private SharedPreferencesManager mgr;
 
-    public DeviceRegistrationASTask(SharedPreferences.Editor spEditor) {
-        editor = spEditor;
+    public DeviceRegistrationASTask(SharedPreferencesManager spMgr) {
+        mgr = spMgr;
     }
 
     @Override
@@ -77,7 +77,8 @@ public class DeviceRegistrationASTask extends AsyncTask<Void, Void, Void> implem
 
             stream.close();
 
-            editor.putString(SHARED_PREFERENCES_UUID, builder.toString()).putBoolean(SHARED_PREFERENCES_FIRST_RUN, true).apply();
+            mgr.change(SHARED_PREFERENCES_UUID, builder.toString());
+            mgr.change(SHARED_PREFERENCES_FIRST_RUN, true);
             setUUID(builder.toString());
         } catch (IOException e) {
             Log.e(TAG, "onResponse: error reading input stream from response.", e);

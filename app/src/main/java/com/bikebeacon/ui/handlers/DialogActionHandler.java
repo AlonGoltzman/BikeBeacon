@@ -1,18 +1,12 @@
 package com.bikebeacon.ui.handlers;
 
 import android.app.Activity;
-import android.util.Log;
-import android.view.View;
 import android.widget.CompoundButton;
 
 import com.bikebeacon.R;
 import com.bikebeacon.background.utility.SharedPreferencesManager;
-import com.bikebeacon.ui.MapsActivity;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import static com.bikebeacon.background.utility.Constants.SHARED_PREFERENCES_LOW_POWER_MODE;
 import static com.bikebeacon.background.utility.Constants.SHARED_PREFERENCES_MAP_DRAW;

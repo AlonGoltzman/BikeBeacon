@@ -18,6 +18,7 @@ import com.bikebeacon.background.dispatchers.AlertDispatcher;
 import com.bikebeacon.background.fcm.FCMTokenUploadASTask;
 import com.bikebeacon.background.server_interactions.DeviceRegistrationASTask;
 import com.bikebeacon.background.utility.Constants;
+import com.bikebeacon.background.utility.SharedPreferencesManager;
 import com.bikebeacon.pojo.Alert;
 import com.google.firebase.iid.FirebaseInstanceId;
 
@@ -27,9 +28,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-import static com.bikebeacon.background.utility.Constants.PACKAGE_NAME;
 import static com.bikebeacon.background.utility.Constants.START_RECORDING;
-import static com.bikebeacon.background.utility.GeneralUtility.getUUID;
 import static com.bikebeacon.background.utility.GeneralUtility.isFirstRun;
 
 public class TestActivity extends Activity implements View.OnClickListener, Callback {
@@ -48,7 +47,7 @@ public class TestActivity extends Activity implements View.OnClickListener, Call
         }
         //Registering the device.
         if (isFirstRun(this))
-            new DeviceRegistrationASTask(getSharedPreferences(PACKAGE_NAME, MODE_APPEND).edit()).execute();
+            new DeviceRegistrationASTask(SharedPreferencesManager.getManager(this)).execute();
 
         //Uploading the token regardless of if it was uploaded or not.
         String token = FirebaseInstanceId.getInstance().getToken();
@@ -61,17 +60,17 @@ public class TestActivity extends Activity implements View.OnClickListener, Call
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_fire_alert:
-                if (getUUID(this) == null) {
-                    Toast.makeText(this, "Device not registered yet.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if (getUUID(this) == null) {
+//                    Toast.makeText(this, "Device not registered yet.", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 Toast.makeText(this, "Alert Shot Started", Toast.LENGTH_SHORT).show();
                 Alert alert = new Alert(Constants.AlertAction.ALERT_NEW);
                 alert.setGPSCoords("test,test");
                 alert.setCellTowersID("test,test,test");
                 alert.setIsClosed(false);
                 alert.setPreviousAlertId("null");
-                alert.setUUID(getUUID(this));
+                //alert.setUUID(getUUID(this));
                 AlertDispatcher.getDispatcher().fireAlert(alert, this);
                 LocalBroadcastManager.getInstance(this).registerReceiver(new RecordingInitiationReceiver(this), new IntentFilter(START_RECORDING));
                 break;

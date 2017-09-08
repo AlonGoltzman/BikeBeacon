@@ -1,11 +1,12 @@
 package com.bikebeacon.background.utility;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import java.util.ArrayList;
+import com.bikebeacon.pojo.SharedPreferencesChangeListener;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,23 +20,26 @@ import static com.bikebeacon.background.utility.Constants.PACKAGE_NAME;
 
 public final class SharedPreferencesManager {
 
+    private static SharedPreferences prefs;
+    private static SharedPreferencesManager instance;
     private List<SharedPreferencesChangeListener> allChangeListeners;
     private Map<String, SharedPreferencesChangeListener> specificChangeListeners;
-    private static SharedPreferences prefs;
 
-    private static SharedPreferencesManager instance;
-
-    public static SharedPreferencesManager getManager(@NonNull Activity caller) {
-        return instance == null ? new SharedPreferencesManager(caller) : instance;
-    }
-
-    private SharedPreferencesManager(@NonNull Activity caller) {
+    private SharedPreferencesManager(@NonNull Context caller) {
         instance = this;
         prefs = caller.getSharedPreferences(PACKAGE_NAME, Context.MODE_APPEND);
         allChangeListeners = new LinkedList<>();
         specificChangeListeners = new HashMap<>();
     }
 
+    @Nullable
+    public static SharedPreferencesManager getManager() {
+        return instance;
+    }
+
+    public static SharedPreferencesManager getManager(@NonNull Context caller) {
+        return instance == null ? new SharedPreferencesManager(caller) : instance;
+    }
 
     public void addListener(@NonNull SharedPreferencesChangeListener listener) {
         allChangeListeners.add(listener);
@@ -61,6 +65,14 @@ public final class SharedPreferencesManager {
         else
             throw new IllegalArgumentException("Only Boolean, String, Float, Integer & Long.");
         editor.apply();
+        if (specificChangeListeners.containsKey(key))
+            specificChangeListeners.get(key).onChange(key, newValue);
+        for (SharedPreferencesChangeListener allChangeListener : allChangeListeners)
+            allChangeListener.onChange(key, newValue);
+    }
+
+    public Object get(String key) {
+        return prefs.getAll().get(key);
     }
 
     public void release() {

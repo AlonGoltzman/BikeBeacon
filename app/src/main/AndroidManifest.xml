@@ -43,24 +43,20 @@
         <activity
             android:name=".ui.MapsActivity"
             android:label="@string/title_activity_maps">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".ui.MapsActivity"/>
         <activity android:name=".ui.TestActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN"/> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
+            <!-- </intent-filter> -->
         </activity>
 
         <!-- Firebase Cloud Messaging -->
@@ -74,7 +70,22 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
+        <service
+            android:name=".background.location_util.LocationUpdateService"
+            android:enabled="true"
+            android:exported="false">
+        </service>
 
+        <receiver
+            android:name=".background.broadcast_receiveres.PermissionUpdateReceiver"
+            android:enabled="true"
+            android:exported="false">
+        </receiver>
+        <receiver
+            android:name=".background.broadcast_receiveres.ResolutionDoneReceiver"
+            android:enabled="true"
+            android:exported="false">
+        </receiver>
     </application>
 
 </manifest>
