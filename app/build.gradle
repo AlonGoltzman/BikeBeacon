@@ -33,22 +33,19 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //Firebase Cloud Messaging
-    compile 'com.google.firebase:firebase-core:11.2.0'
-    compile 'com.google.firebase:firebase-messaging:11.2.0'
-
+    compile 'com.google.firebase:firebase-core:11.2.2'
+    compile 'com.google.firebase:firebase-messaging:11.2.2'
     //Google play services, do we really need the second one?
-    compile 'com.google.android.gms:play-services-maps:11.2.0'
-    compile 'com.google.android.gms:play-services:11.2.0'
-
+    compile 'com.google.android.gms:play-services-maps:11.2.2'
+    compile 'com.google.android.gms:play-services:11.2.2'
     //Design
-    compile 'com.android.support:appcompat-v7:26.0.1'
-    compile 'com.android.support:animated-vector-drawable:26.0.1'
-    compile 'com.android.support:design:26.0.1'
-    compile 'com.android.support:support-v4:26.0.1'
-    compile 'com.android.support:support-vector-drawable:26.0.1'
+    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.android.support:animated-vector-drawable:26.0.2'
+    compile 'com.android.support:design:26.0.2'
+    compile 'com.android.support:support-v4:26.0.2'
+    compile 'com.android.support:support-vector-drawable:26.0.2'
     compile 'org.adw.library:discrete-seekbar:1.0.1'
     compile 'com.orhanobut:dialogplus:1.11@aar'
-
     //HTTP Ops
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
 

@@ -37,6 +37,7 @@ public final class Constants {
     public static final String SHARED_PREFERENCES_NUMBER_TO_CALL = PACKAGE_NAME + ".call";
     public static final String SHARED_PREFERENCES_LOW_POWER_MODE = PACKAGE_NAME + ".lowPower";
     public static final String SHARED_PREFERENCES_REFRESH_TIME = PACKAGE_NAME + ".refreshTime";
+    public static final String SHARED_PREFERENCES_UPLOADED_MAILING_LIST = PACKAGE_NAME + ".mailingListUploaded";
 
     public static final String RESPONSE_INPUT = "inputFormat";
     public static final String RESPONSE_OUTPUT = "outputFormat";
@@ -46,6 +47,7 @@ public final class Constants {
 
     public static final float EARTH_RADIUS_KM = 6371;
     public static final int REQUEST_CHECK_SETTINGS = 2;
+    public static final int HANDLER_UPDATE_DIALOG = 73491;
     public static final int PERMISSION_REQUEST_CODE = 845012;
     public static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 

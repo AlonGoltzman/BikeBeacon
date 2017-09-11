@@ -49,6 +49,8 @@ import static com.bikebeacon.background.utility.GeneralUtility.hasPermissions;
 @SuppressWarnings("MissingPermission")
 public class CentralHandler implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
 
+    private static final String TAG = CentralHandler.class.getSimpleName();
+
     private static final int MAX_INTERVAL = 2500;
     private static final int MIN_INTERVAL = 500;
     @SuppressLint("StaticFieldLeak")
@@ -101,6 +103,8 @@ public class CentralHandler implements GoogleApiClient.ConnectionCallbacks, Goog
     public void onConnected(@Nullable Bundle bundle) {
         if (mMap == null)
             return;
+        if (!hasPermissions())
+            return;
         //Enable the 'current location' layer (the light blue dot) to indicate the user's location,
         //and also add a button (at the top right side), which centers the map on the user's location.
         mMap.setMyLocationEnabled(true);
@@ -136,6 +140,7 @@ public class CentralHandler implements GoogleApiClient.ConnectionCallbacks, Goog
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        onConnected(null);
     }
 
     public void updateCameraPos(Location newLocation) {
@@ -158,6 +163,7 @@ public class CentralHandler implements GoogleApiClient.ConnectionCallbacks, Goog
     private void registerForLocationUpdated() {
         if (!hasPermissions())
             return;
+        Log.d(TAG, "registerForLocationUpdated() called Requesting location updates.");
         LocationServices.FusedLocationApi.requestLocationUpdates(mAPI, mLocRequest, mLocHandler);
         mListeningForLocationUpdated = true;
     }
@@ -224,10 +230,13 @@ public class CentralHandler implements GoogleApiClient.ConnectionCallbacks, Goog
     //====================================================================================
     public void start() {
         if (mAPI != null)
-            if (!mAPI.isConnected() && !mAPI.isConnecting())
+            if (!mAPI.isConnected() && !mAPI.isConnecting()) {
                 mAPI.connect();
-            else
+                Log.d(TAG, "start() called but not connected");
+            } else {
                 resume();
+                Log.d(TAG, "start() called and resume called");
+            }
     }
 
     public void stop() {
@@ -236,8 +245,12 @@ public class CentralHandler implements GoogleApiClient.ConnectionCallbacks, Goog
     }
 
     public void resume() {
-        if (mAPI.isConnected() && !mListeningForLocationUpdated)
+        Log.d(TAG, "resume() called");
+        if (mAPI.isConnected() && !mListeningForLocationUpdated) {
+            Log.d(TAG, "resume() called and requested updates.");
             registerForLocationUpdated();
+        }
+
     }
 
     public void pause() {

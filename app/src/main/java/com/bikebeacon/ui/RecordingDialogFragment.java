@@ -18,9 +18,11 @@ import java.util.TimerTask;
 
 public class RecordingDialogFragment extends DialogFragment implements View.OnClickListener {
 
+
+    private static final String TAG = RecordingDialogFragment.class.getSimpleName();
     public static boolean run = true;
 
-    private int mTimeLeft = 30;
+    private int mTimeLeft = 5;
     private TextView mTitle;
     private Timer mExecutionTimer;
 
@@ -45,7 +47,7 @@ public class RecordingDialogFragment extends DialogFragment implements View.OnCl
         if (mStopListener != null)
             mStopListener.onDone(getActivity());
         else
-            Log.e("ABC", "run: No RecordingDoneCallback set.");
+            Log.e(TAG, "run: No RecordingDoneCallback set.");
     }
 
     @Override
@@ -72,8 +74,10 @@ public class RecordingDialogFragment extends DialogFragment implements View.OnCl
             });
             if (mTimeLeft > 0)
                 mExecutionTimer.schedule(new UpdateTask(), 1000);
-            else
+            else {
                 stopRecording();
+                mTimeLeft = 10;
+            }
 
         }
     }

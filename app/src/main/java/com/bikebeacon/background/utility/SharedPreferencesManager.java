@@ -50,7 +50,7 @@ public final class SharedPreferencesManager {
             specificChangeListeners.put(key, listener);
     }
 
-    public void change(String key, Object newValue) {
+    public SharedPreferencesManager change(String key, Object newValue) {
         SharedPreferences.Editor editor = prefs.edit();
         if (newValue instanceof Boolean)
             editor.putBoolean(key, (Boolean) newValue);
@@ -69,6 +69,8 @@ public final class SharedPreferencesManager {
             specificChangeListeners.get(key).onChange(key, newValue);
         for (SharedPreferencesChangeListener allChangeListener : allChangeListeners)
             allChangeListener.onChange(key, newValue);
+
+        return this;
     }
 
     public Object get(String key) {

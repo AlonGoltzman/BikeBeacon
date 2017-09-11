@@ -42,14 +42,14 @@ public final class SpeedManager {
             pings[nextPos] = new Ping(pings[pos], loc.getLongitude(), loc.getLatitude());
         Ping newPing = pings[nextPos];
         if (currentPing != null)
-            if (newPing.getSpeed() - currentPing.getSpeed() < -10)
+            if (newPing.getSpeed() - currentPing.getSpeed() < -10 && currentPing.getSpeed() < 1)
                 mAlertIssuer.raiseFlag(newPing);
         pos = nextPos;
 
         SharedPreferencesManager mgr = SharedPreferencesManager.getManager();
         if (mgr == null)
             return;
-        mgr.change(SHARED_PREFERENCES_SPEED, newPing.getSpeed());
+        mgr.change(SHARED_PREFERENCES_SPEED, Float.valueOf(Double.toString(newPing.getSpeed())));
         mgr.change(SHARED_PREFERENCES_LAT, Float.valueOf(Double.toString(newPing.getLat())));
         mgr.change(SHARED_PREFERENCES_LON, Float.valueOf(Double.toString(newPing.getLon())));
     }

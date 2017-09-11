@@ -3,7 +3,6 @@ package com.bikebeacon.background.utility;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.bikebeacon.background.utility.Constants.PACKAGE_NAME;
 import static com.bikebeacon.background.utility.Constants.PERMISSION_REQUEST_CODE;
 import static com.bikebeacon.background.utility.Constants.SHARED_PREFERENCES_FIRST_RUN;
 
@@ -49,8 +47,7 @@ public final class GeneralUtility {
     }
 
     public static boolean isFirstRun(Activity caller) {
-        SharedPreferences prefs = caller.getSharedPreferences(PACKAGE_NAME, Context.MODE_APPEND);
-        return !prefs.getBoolean(SHARED_PREFERENCES_FIRST_RUN, false);
+        return !(Boolean) SharedPreferencesManager.getManager(caller).get(SHARED_PREFERENCES_FIRST_RUN);
     }
 
     public static boolean requestRuntimePermissions(Activity caller) {
@@ -59,12 +56,14 @@ public final class GeneralUtility {
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.READ_CONTACTS,
                     Manifest.permission.CALL_PHONE));
+            ArrayList<String> perms = new ArrayList<>();
             for (String requiredPerm : requiredPerms)
-                if (caller.checkSelfPermission(requiredPerm) == PackageManager.PERMISSION_GRANTED)
-                    requiredPerms.remove(requiredPerm);
-            if (requiredPerms.size() > 0) {
-                String[] values = Arrays.copyOf(requiredPerms.toArray(), requiredPerms.size(), String[].class);
+                if (caller.checkSelfPermission(requiredPerm) != PackageManager.PERMISSION_GRANTED)
+                    perms.add(requiredPerm);
+            if (perms.size() > 0) {
+                String[] values = Arrays.copyOf(perms.toArray(), perms.size(), String[].class);
                 caller.requestPermissions(values, PERMISSION_REQUEST_CODE);
                 setHasPermissions(false);
                 return true;

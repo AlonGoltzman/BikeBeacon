@@ -7,6 +7,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.bikebeacon.background.dispatchers.NetworkDispatcher;
+import com.bikebeacon.background.utility.SharedPreferencesManager;
 import com.bikebeacon.pojo.ExoPlayerEventAdapter;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Player;
@@ -37,7 +38,6 @@ import okhttp3.Response;
 
 import static com.bikebeacon.background.utility.Constants.FCM_CALL;
 import static com.bikebeacon.background.utility.Constants.FCM_URL;
-import static com.bikebeacon.background.utility.Constants.PACKAGE_NAME;
 import static com.bikebeacon.background.utility.Constants.SHARED_PREFERENCES_NUMBER_TO_CALL;
 import static com.bikebeacon.background.utility.Constants.START_RECORDING;
 import static com.bikebeacon.background.utility.GeneralUtility.getExternalStorageDir;
@@ -59,7 +59,10 @@ public class FCMBackend extends FirebaseMessagingService implements Callback {
             Log.i("FCMBackend", "onMessageReceived: Starting message sequence");
             String key = remoteMessage.getData().get(FCM_URL);
             String phoneNumber = remoteMessage.getData().get(FCM_CALL);
-            getSharedPreferences(PACKAGE_NAME, MODE_APPEND).edit().putString(SHARED_PREFERENCES_NUMBER_TO_CALL, phoneNumber).apply();
+            if (phoneNumber != null) {
+                SharedPreferencesManager.getManager(this).change(SHARED_PREFERENCES_NUMBER_TO_CALL, phoneNumber);
+                Log.i("FCMBackend", "onMessageReceived: Number to call: " + phoneNumber);
+            }
             BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
             TrackSelection.Factory videoTrackSelectionFactory =
                     new AdaptiveTrackSelection.Factory(bandwidthMeter);
