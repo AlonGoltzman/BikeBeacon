@@ -7,14 +7,17 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.bikebeacon.R;
 import com.bikebeacon.background.audio_recording.RecordingInitiationReceiver;
 import com.bikebeacon.background.dispatchers.AlertDispatcher;
+import com.bikebeacon.background.fcm.FCMTokenUploadASTask;
 import com.bikebeacon.background.utility.Constants;
 import com.bikebeacon.background.utility.SharedPreferencesManager;
 import com.bikebeacon.pojo.Alert;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.IOException;
 
@@ -33,7 +36,10 @@ public class TestActivity extends Activity implements View.OnClickListener, Call
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        String token = FirebaseInstanceId.getInstance().getToken();
+        if (token != null && !token.isEmpty())
+            new FCMTokenUploadASTask().execute(token);
         findViewById(R.id.btn_fire_alert).setOnClickListener(this);
     }
 

@@ -17,4 +17,5 @@
     <string name="need_permissions">App need permissions to work</string>
     <string name="select_contacts">You have to select contacts for the mailing list</string>
     <string name="failed_uploading_contacts_json">Error uploading contacts: 0x014f231</string>
+    <string name="uploading_contacts">Uploading contacts to server</string>
 </resources>

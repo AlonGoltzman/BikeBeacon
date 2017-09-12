@@ -101,10 +101,15 @@ public class CentralHandler implements GoogleApiClient.ConnectionCallbacks, Goog
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        if (mMap == null)
+        if (mMap == null) {
+            Log.d(TAG, "onConnected() map is null.");
             return;
-        if (!hasPermissions())
+        }
+        if (!hasPermissions()) {
+            Log.d(TAG, "onConnected() no permissions.");
             return;
+        }
+        Log.d(TAG, "onConnected() listening to updates = [" + mListeningForLocationUpdated + "]");
         //Enable the 'current location' layer (the light blue dot) to indicate the user's location,
         //and also add a button (at the top right side), which centers the map on the user's location.
         mMap.setMyLocationEnabled(true);
@@ -120,8 +125,7 @@ public class CentralHandler implements GoogleApiClient.ConnectionCallbacks, Goog
             if (mLastLoc != null)
                 updateCameraPos(mLastLoc);
         }
-        if (!mListeningForLocationUpdated)
-            start();
+        start();
 
     }
 
@@ -140,6 +144,7 @@ public class CentralHandler implements GoogleApiClient.ConnectionCallbacks, Goog
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mListeningForLocationUpdated = false;
         onConnected(null);
     }
 

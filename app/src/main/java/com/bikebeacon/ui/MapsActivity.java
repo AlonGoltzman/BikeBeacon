@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.bikebeacon.R;
@@ -39,13 +40,15 @@ public class MapsActivity extends FragmentActivity implements SharedPreferencesC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         requestRuntimePermissions(this);
 
         SharedPreferencesManager mgr = SharedPreferencesManager.getManager(this);
 
         String token = FirebaseInstanceId.getInstance().getToken();
-        if (token != null && !token.isEmpty())
+        if (token != null && !token
+                .isEmpty())
             new FCMTokenUploadASTask().execute(token);
 
 

@@ -16,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -67,6 +68,7 @@ public class MailingListActivity extends Activity implements View.OnClickListene
             return;
         }
         setContentView(R.layout.activity_mailing_list);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         if (!hasPermissions())
             if (requestRuntimePermissions(this))
@@ -94,6 +96,7 @@ public class MailingListActivity extends Activity implements View.OnClickListene
     public void onClick(View view) {
         mDialog = new UploadingDialogFragment();
         mDialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+        mDialog.setCancelable(false);
         mDialog.show(getFragmentManager(), "");
         new ContactSubmission(mContacts, mHandler).execute();
     }
@@ -107,9 +110,9 @@ public class MailingListActivity extends Activity implements View.OnClickListene
 
         mContactsList = findViewById(R.id.mailing_list_contacts);
         mContactsList.setLayoutManager(new LinearLayoutManager(this));
-        mDialog = new ContactsDialogFragment();
         mContacts = new ArrayList<>();
 
+        mDialog = new ContactsDialogFragment();
         mDialog.setCancelable(false);
         mDialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
         mDialog.show(getFragmentManager(), "");

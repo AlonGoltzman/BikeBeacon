@@ -53,7 +53,8 @@ public final class NetworkDispatcher {
 
         @Override
         public String toString() {
-            return (mIsEmulator ? "http://10.0.0.2:8080" : "http://10.0.0.2:75") + URL;
+            return "http://10.0.25.18:75"
+                    + URL;
         }
 
         public String toStringWithParams(String... params) {
